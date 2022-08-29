@@ -7,13 +7,23 @@ class Song
   def self.table_name
     self.to_s.downcase.pluralize
   end
+  rue
 
+  #PRAGMA  is used for returning column names as an array of hashes that describe the table itself
+  # Every hash has info about one column
+  # Here, the SQL statement uses the pragma keyword and the #table_name method for accessing the name of table being queried
+  # An iteration over resulting array of hashes is done to collect only the name of every column. 
+      sql = "pragma table_info('#{table_name}')"
+  
+      table_info = DB[:conn].execute(sql)
+      column_names = []
+      
   def self.column_names
     DB[:conn].results_as_hash = true
 
 #PRAGMA  is used for returning column names as an array of hashes that describe the table itself
 # Every hash has info about one column
-# Here, the SQL statement uses the pragma keyword and the #table_name method for accessing the name of table being queried
+# Here, the SQL statement uses the pragma keyword and the #table_name method to access the table name being queried
 # An iteration over resulting array of hashes is done to collect only the name of every column. 
     sql = "pragma table_info('#{table_name}')"
 
@@ -53,7 +63,7 @@ class Song
     self.class.table_name
   end
 
-#Abstracting the colum names
+#Abstracting the column names
   def values_for_insert
     values = []
     self.class.column_names.each do |col_name|
